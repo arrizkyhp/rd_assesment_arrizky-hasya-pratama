@@ -6,15 +6,18 @@ import { updateURLQuery } from '@/helpers';
 import useGetData from '@/hooks/useGetData';
 import type { SortParam, TableColumn } from '@/types/tables';
 import { createQueryParams } from '@/utils';
-import userListNormalizer from '@/views/CrudExample/index.normalizer';
+import type {
+  PokemonListResponse,
+  PokemonQueryParams,
+} from '@/views/Pokemon/index.types';
 
 import { INIT_QUERY_PARAMS, TABLE_COLUMNS } from './index.constants';
-import type { UserListResponse, UserQueryParams } from './index.types';
 
-const useCrudList = () => {
+const usePokemonList = () => {
   const router = useRouter();
   const tableColumns: TableColumn[] = TABLE_COLUMNS;
-  const [queryParams, setQueryParams] = useState<UserQueryParams>(INIT_QUERY_PARAMS);
+  const [queryParams, setQueryParams] =
+    useState<PokemonQueryParams>(INIT_QUERY_PARAMS);
   const initQuery = router.query;
 
   useEffect(() => {
@@ -22,15 +25,23 @@ const useCrudList = () => {
   }, [initQuery]);
   const updateQueryParams = (queryObject: Record<string, unknown>) => {
     setQueryParams((prevState) => {
-      const newState: UserQueryParams = { ...prevState, ...queryObject };
+      const newState: PokemonQueryParams = { ...prevState, ...queryObject };
       updateURLQuery(router, newState);
       return newState;
     });
   };
+
   const onPageChange = (val: number) => {
     updateQueryParams({ page: val });
   };
 
+  const onOffsetChange = (val: number) => {
+    updateQueryParams({ offset: val });
+  };
+
+  const onPageSizeChange = (val: number) => {
+    updateQueryParams({ limit: val });
+  };
   const onSortChange = (params: SortParam) => {
     const { key, direction } = params;
     onPageChange(1);
@@ -49,12 +60,12 @@ const useCrudList = () => {
     console.log('delete', id);
   };
 
-  const { data, isLoading } = useGetData<UserListResponse>(
-    ['userList', createQueryParams(queryParams)],
-    ENDPOINT.USER_MGMT.USERS,
+  const { data, isLoading } = useGetData<PokemonListResponse>(
+    ['pokemonList', createQueryParams(queryParams)],
+    ENDPOINT.POKEMON,
     {
       params: queryParams,
-      normalizer: userListNormalizer,
+      //   normalizer: userListNormalizer,
       options: {
         retry: 3,
       },
@@ -69,8 +80,10 @@ const useCrudList = () => {
     handleDelete,
     handleDetail,
     onPageChange,
+    onPageSizeChange,
+    onOffsetChange,
     onSortChange,
   };
 };
 
-export default useCrudList;
+export default usePokemonList;

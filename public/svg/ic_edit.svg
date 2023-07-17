@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_17772" data-name="Rectangle 17772" width="20" height="20" transform="translate(0.375 -0.375)" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="ic_edit_blue" transform="translate(-0.375 0.375)" clip-path="url(#clip-path)">
+    <path id="Icon_awesome-edit" data-name="Icon awesome-edit" d="M12.666,2.617,15.5,5.455a.308.308,0,0,1,0,.434L8.633,12.761l-2.92.324a.612.612,0,0,1-.676-.676l.324-2.92,6.871-6.871A.308.308,0,0,1,12.666,2.617Zm5.1-.72L16.228.362a1.23,1.23,0,0,0-1.737,0L13.377,1.475a.308.308,0,0,0,0,.434l2.838,2.838a.308.308,0,0,0,.434,0l1.114-1.114A1.23,1.23,0,0,0,17.763,1.9Zm-5.682,8.995v3.2H2.014V4.027h7.23a.387.387,0,0,0,.267-.11l1.258-1.258a.378.378,0,0,0-.267-.645H1.51A1.511,1.511,0,0,0,0,3.523V14.6a1.511,1.511,0,0,0,1.51,1.51H12.585a1.511,1.511,0,0,0,1.51-1.51V9.633a.378.378,0,0,0-.645-.267l-1.258,1.258A.387.387,0,0,0,12.081,10.892Z" transform="translate(2.278 1.512)" />
+  </g>
+</svg>

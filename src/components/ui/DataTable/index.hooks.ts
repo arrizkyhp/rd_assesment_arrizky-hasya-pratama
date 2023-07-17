@@ -1,19 +1,42 @@
 import { useEffect, useState } from 'react';
 
+import type { SelectChangeEvent } from '@mui/material';
 import type { ChangeEvent, KeyboardEvent } from 'react';
 
+import type { SelectItem } from '@/components/base/Select/index.types';
 import { noop } from '@/utils';
 
-import type {
-  DynamicSortState, SortState,
-  TableProps,
-} from './index.types';
+import type { DynamicSortState, SortState, TableProps } from './index.types';
+
+const pageSizeOptions: SelectItem[] = [
+  {
+    label: '10',
+    value: 10,
+  },
+  {
+    label: '20',
+    value: 20,
+  },
+  {
+    label: '50',
+    value: 50,
+  },
+];
 
 const useDataTable = (props: TableProps) => {
   const {
-    columns, page = 1, onPageChange = noop, onSortChange = noop,
+    columns,
+    page = 1,
+    offset = 0,
+    pageSize = 10,
+    onPageChange = noop,
+    onOffsetChange = noop,
+    onPageSizeChange = noop,
+    onSortChange = noop,
   } = props || {};
-  const [displayPage, setDisplayPage] = useState(page);
+  const [displayPage, setDisplayPage] = useState<number>(page);
+  const [displayOffset, setDisplayOffset] = useState<number>(offset);
+  const [displayPageSize, setDisplayPageSize] = useState(pageSize);
 
   const [sortState, setSortState] = useState<DynamicSortState>({});
 
@@ -36,13 +59,29 @@ const useDataTable = (props: TableProps) => {
     setDisplayPage(page);
   }, [page]);
 
+  useEffect(() => {
+    setDisplayOffset(offset);
+  }, [offset]);
+
   const onQuickPageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (Number(e.target.value) <= 1) {
+      setDisplayPage(1);
+    }
     setDisplayPage(Number(e.target.value));
+    setDisplayOffset(Number(e.target.value) * 10);
   };
 
-  const handleChangePage = (val: number) => {
-    setDisplayPage(val);
-    onPageChange(val);
+  const handleChangePage = (valDisplay: number, valOffset: number) => {
+    setDisplayPage(valDisplay);
+    onPageChange(valDisplay);
+    setDisplayOffset(valOffset);
+    onOffsetChange(valOffset);
+  };
+
+  const handlePageSizeChange = (e: SelectChangeEvent<string>) => {
+    const value = Number(e.target.value);
+    setDisplayPageSize(value);
+    onPageSizeChange(value);
   };
 
   const handleSort = (columnKey: string) => {
@@ -88,13 +127,17 @@ const useDataTable = (props: TableProps) => {
   const onSubmitPage = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       onPageChange(displayPage);
+      onOffsetChange(displayOffset);
     }
   };
 
   return {
     displayPage,
+    displayPageSize,
+    pageSizeOptions,
     sortState,
     handleChangePage,
+    handlePageSizeChange,
     handleSort,
     onQuickPageChange,
     onSubmitPage,

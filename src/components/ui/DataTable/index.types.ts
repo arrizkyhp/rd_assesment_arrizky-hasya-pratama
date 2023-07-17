@@ -1,5 +1,3 @@
-import type { ReactNode } from 'react';
-
 import type { SortParam, TableColumn } from '@/types/tables';
 
 export interface TableProps {
@@ -7,10 +5,13 @@ export interface TableProps {
   columns: TableColumn[];
   loading?: boolean;
   page?: number;
+  offset?: number;
   pageSize?: number;
   rowActions?: ActionProps[];
   showPagination?: boolean;
+  showPageSizeChanger?: boolean;
   onPageChange?: (page: number) => void;
+  onOffsetChange?: (page: number) => void;
   onPageSizeChange?: (page: number) => void;
   onFilterChange?: (filter: Record<string, string>) => void;
   onSortChange?: (sortState: SortParam) => void;
@@ -18,7 +19,7 @@ export interface TableProps {
 }
 
 export interface ActionProps {
-  label: ReactNode;
+  action: string;
   danger?: boolean;
   onClick: (id: string) => void;
 }

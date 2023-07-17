@@ -7,7 +7,5 @@ export const ENDPOINT = {
   MASTER: {
     VEHICLE: 'master-data/inventory/vehicle/list',
   },
-  USER_MGMT: {
-    USERS: 'user-management/users',
-  },
+  POKEMON: 'pokemon',
 };

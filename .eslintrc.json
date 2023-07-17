@@ -11,49 +11,31 @@
     "plugin:@typescript-eslint/recommended",
     "airbnb",
     "airbnb/hooks",
-    "airbnb-typescript"
+    "airbnb-typescript",
+    "prettier"
   ],
   "overrides": [
     {
-      "files": [
-        "*.ts",
-        "*.tsx"
-      ],
+      "files": ["*.ts", "*.tsx"],
       "rules": {
         "simple-import-sort/imports": [
           "error",
           {
             "groups": [
               // Packages `react` adn `next` related packages come first.
-              [
-                "^react$",
-                "^next"
-              ],
+              ["^react$", "^next"],
               // External packages.
-              [
-                "^@?\\w"
-              ],
+              ["^@?\\w"],
               // Internal packages.
-              ["^@\/"],
+              ["^@/"],
               // Side effect imports.
-              [
-                "^\\u0000"
-              ],
+              ["^\\u0000"],
               // Parent imports. Put `..` last.
-              [
-                "^\\.\\.(?!/?$)",
-                "^\\.\\./?$"
-              ],
+              ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
               // Other relative imports. Put same-folder imports and `.` last.
-              [
-                "^\\./(?=.*/)(?!/?$)",
-                "^\\.(?!/?$)",
-                "^\\./?$"
-              ],
+              ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
               // Style imports.
-              [
-                "^.+\\.?(css)$"
-              ]
+              ["^.+\\.?(css)$"]
             ]
           }
         ],
@@ -93,20 +75,23 @@
       }
     ],
     "import/no-extraneous-dependencies": ["off"],
-    "indent": [
-      "warn",
-      2
+    "indent": ["warn", 2],
+    "jsx-a11y/label-has-associated-control": [
+      "error",
+      {
+        "required": {
+          "some": ["nesting", "id"]
+        }
+      }
     ],
-    "jsx-a11y/label-has-associated-control": ["error", {
-      "required": {
-        "some": ["nesting", "id"]
+    "jsx-a11y/label-has-for": [
+      "error",
+      {
+        "required": {
+          "some": ["nesting", "id"]
+        }
       }
-    }],
-    "jsx-a11y/label-has-for": ["error", {
-      "required": {
-        "some": ["nesting", "id"]
-      }
-    }],
+    ],
     "linebreak-style": "off",
     "no-restricted-imports": [
       "error",
@@ -114,14 +99,8 @@
         "patterns": ["@mui/*/*/*"]
       }
     ],
-    "quotes": [
-      "error",
-      "single"
-    ],
-    "semi": [
-      "error",
-      "always"
-    ],
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"],
     "no-plusplus": "off",
     "no-restricted-syntax": "off",
     "simple-import-sort/imports": "error",

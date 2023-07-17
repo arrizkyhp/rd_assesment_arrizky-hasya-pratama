@@ -1,15 +1,11 @@
 import { createColumnData } from '@/helpers';
 import type { TableColumn } from '@/types/tables';
+import type { PokemonQueryParams } from '@/views/Pokemon/index.types';
 
-import type { UserQueryParams } from './index.types';
-
-export const INIT_QUERY_PARAMS: UserQueryParams = {
-  fullname: '',
-  orderBy: '',
-  orderType: '',
+export const INIT_QUERY_PARAMS: PokemonQueryParams = {
+  limit: 10,
+  offset: '0',
   page: 1,
-  size: 10,
-  username: '',
 };
 
 export const VEHICLE_TABLE_COLUMNS: TableColumn[] = [
@@ -34,11 +30,5 @@ export const VEHICLE_TABLE_COLUMNS: TableColumn[] = [
 ];
 
 export const TABLE_COLUMNS: TableColumn[] = [
-  createColumnData('User Name', 'username', false),
-  createColumnData('Name', 'fullName', false),
-  createColumnData('E-mail ', 'email', false),
-  createColumnData('Dibuat Oleh', 'createdByName', false),
-  createColumnData('Tgl Dibuat', 'createdAt', false),
-  createColumnData('Diubah Oleh', 'lastUpdatedByName', false),
-  createColumnData('Tgl Diubah', 'lastUpdatedAt', false),
+  createColumnData('Name', 'name', false),
 ];

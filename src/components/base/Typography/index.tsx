@@ -1,4 +1,4 @@
-import { Typography as MUITypography } from '@mui/material';
+import MUITypography from '@mui/material/Typography';
 
 import type { TypographyProps } from './index.types';
 
