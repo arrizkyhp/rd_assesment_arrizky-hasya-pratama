@@ -7,6 +7,7 @@ import usePokemonList from '@/views/Pokemon/index.hooks';
 const PokemonList = () => {
   const {
     data,
+    handleDetail,
     isLoading,
     tableColumns,
     queryParams,
@@ -45,7 +46,7 @@ const PokemonList = () => {
           rowActions={[
             {
               action: TABLE_ACTION.DETAIL,
-              onClick: (id) => console.log(id),
+              onClick: (id) => handleDetail(id),
             },
           ]}
         />

@@ -10,15 +10,25 @@ const Breadcrumbs = (props: BreadcrumbsProps) => {
   const { crumbs = [] } = props;
   return (
     <MUIBreadcrumbs aria-label="breadcrumb">
-      {crumbs.map((el, i) => (
+      {crumbs.map((el, i) =>
         i < crumbs.length - 1 && el.href ? (
-          <Link color="inherit" key={`breadcrumb-segment-${el.label}`} className="text-gray-600 hover:underline no-underline" href={el.href}>
+          <Link
+            color="inherit"
+            key={`breadcrumb-segment-${el.label}`}
+            className="text-gray-600 hover:underline no-underline"
+            href={el.href}
+          >
             {el.label}
           </Link>
         ) : (
-          <Typography key={`breadcrumb-segment-${el.label}`}>{el.label}</Typography>
-        )
-      ))}
+          <Typography
+            className="capitalize"
+            key={`breadcrumb-segment-${el.label}`}
+          >
+            {el.label}
+          </Typography>
+        ),
+      )}
     </MUIBreadcrumbs>
   );
 };

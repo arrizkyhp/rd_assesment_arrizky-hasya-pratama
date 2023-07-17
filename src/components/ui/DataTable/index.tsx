@@ -45,11 +45,9 @@ const DataTable = (props: TableProps) => {
     onSubmitPage,
   } = useDataTable(props);
 
-  console.log(pageSize);
-
   const emptyState = {
     title: 'Mohon maaf, Pencarian tidak ditemukan',
-    message: 'Mohon cek kembali kata kunci dan filter yang anda masukkan',
+    message: 'Mohon cek kembali jaringan anda',
   };
 
   return (
@@ -68,15 +66,14 @@ const DataTable = (props: TableProps) => {
         </div>
       )}
       <Table
-        sx={{ minWidth: 650 }}
+        sx={{ minWidth: 'full' }}
         aria-label="simple table"
-        className="table-fixed w-full"
+        className="table w-full"
       >
         <TableHead>
           <TableRow className="bg-neutral-300">
             <TableCell className="font-bold text-gray-500" width={40}>
-              No.
-              {' '}
+              No.{' '}
             </TableCell>
             {columns.map((column) => (
               <TableCell
@@ -86,9 +83,9 @@ const DataTable = (props: TableProps) => {
                 classes={{ root: 'break-words' }}
                 width={column.width}
               >
-                {column.sortable
-                && column.sortKey
-                && Object.keys(sortState).length ? (
+                {column.sortable &&
+                column.sortKey &&
+                Object.keys(sortState).length ? (
                     <TableSortLabel
                       active={sortState[column.sortKey].active}
                       direction={sortState[column.sortKey].direction}
@@ -111,14 +108,26 @@ const DataTable = (props: TableProps) => {
         <TableBody>
           {loading && (
             <TableRow>
-              <TableCell colSpan={columns.length + 3}>
+              <TableCell colSpan={columns.length + 4}>
                 <div className="flex justify-center items-center w-full min-h-[500px]">
                   <Spinner width={80} height={80} />
                 </div>
               </TableCell>
             </TableRow>
           )}
-          {!loading && data.length ? (
+
+          {!loading && data.length === 0 && (
+            <TableRow>
+              <TableCell colSpan={columns.length + 3}>
+                <div className="text-center p-24">
+                  <Typography variant="h6">{emptyState.title}</Typography>
+                  <Typography>{emptyState.message}</Typography>
+                </div>
+              </TableCell>
+            </TableRow>
+          )}
+          {!loading &&
+            data.length &&
             data.map((row, i) => (
               <TableRow
                 key={String(row[uniqueRowKey])}
@@ -176,17 +185,7 @@ const DataTable = (props: TableProps) => {
                   </TableCell>
                 )} */}
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length + 3}>
-                <div className="text-center p-24">
-                  <Typography variant="h6">{emptyState.title}</Typography>
-                  <Typography>{emptyState.message}</Typography>
-                </div>
-              </TableCell>
-            </TableRow>
-          )}
+            ))}
         </TableBody>
       </Table>
 
@@ -195,7 +194,9 @@ const DataTable = (props: TableProps) => {
           <Button
             className="p-1 min-w-0 w-8"
             disabled={Number(page) === 1 || !page}
-            onClick={() => handleChangePage(Number(page) - 1, Number(offset) - 10)}
+            onClick={() =>
+              handleChangePage(Number(page) - 1, Number(offset) - 10)
+            }
             variant="outline"
           >
             &lt;
@@ -211,7 +212,9 @@ const DataTable = (props: TableProps) => {
           />
           <Button
             className="p-1 min-w-0 w-8"
-            onClick={() => handleChangePage(Number(page) + 1, Number(offset) + 10)}
+            onClick={() =>
+              handleChangePage(Number(page) + 1, Number(offset) + 10)
+            }
             disabled={data.length < pageSize}
             variant="outline"
           >

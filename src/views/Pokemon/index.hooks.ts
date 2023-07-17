@@ -49,9 +49,7 @@ const usePokemonList = () => {
   };
 
   const handleDetail = (id: string) => {
-    // TODO: detail handling logic, remove disable eslint
-    // eslint-disable-next-line no-console
-    console.log(id);
+    router.push(`/${id}`);
   };
 
   const handleDelete = (id: string) => {
