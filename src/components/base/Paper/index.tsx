@@ -4,8 +4,9 @@ import type { PaperProps } from './index.types';
 
 const Paper = (props: PaperProps) => {
   const { children, className = '' } = props;
+
   return (
-    <MUIPaper className={className} variant="outlined" elevation={3}>
+    <MUIPaper className={className} variant="outlined">
       {children}
     </MUIPaper>
   );
