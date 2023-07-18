@@ -1,3 +1,6 @@
+import Link from 'next/link';
+
+import Button from '@/components/base/Button';
 import Paper from '@/components/base/Paper';
 import Table from '@/components/ui/DataTable';
 import PageHeader from '@/components/ui/PageHeader';
@@ -19,16 +22,16 @@ const PokemonList = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-5 mt-5">
         <PageHeader
           title="Pokemon List"
-          crumbs={[{ label: 'Home', href: '/' }, { label: 'CRUD List' }]}
+          crumbs={[{ label: 'Home', href: '/' }]}
         />
-        {/* <Link href="/crud-example/create">
-          <Button className="h-fit" color="primary" startIcon={<Add />}>
-            Add Vehicle
+        <Link href="/my-pokemon">
+          <Button className="h-fit" color="primary">
+            My Pokemon
           </Button>
-        </Link> */}
+        </Link>
       </div>
       <Paper className="p-4">
         <Table

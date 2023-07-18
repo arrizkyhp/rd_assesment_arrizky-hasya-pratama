@@ -1,120 +1,76 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 import Button from '@/components/base/Button';
 import Paper from '@/components/base/Paper';
-import Progress from '@/components/base/Progress';
 import Typography from '@/components/base/Typography';
 import { Spinner } from '@/components/icons';
 import PageHeader from '@/components/ui/PageHeader';
+import PokemonBaseStats from '@/views/Pokemon/PokemonDetail/components/PokemonBaseStats';
+import PokemonPokedoxData from '@/views/Pokemon/PokemonDetail/components/PokemonPokedexData';
 import usePokemonDetail from '@/views/Pokemon/PokemonDetail/index.hooks';
+import type { PokemonStats } from '@/views/Pokemon/PokemonDetail/index.types';
+
+import styles from './index.module.scss';
 
 const PokemonDetail = () => {
-  const { dataPokemonDetail, handleCatch, isCatched } = usePokemonDetail();
+  const {
+    dataPokemonDetail,
+    handleCatch,
+    isLoading,
+    isCatched,
+    imageUrl,
+    pokemonName,
+  } = usePokemonDetail();
 
-  const imageUrl = dataPokemonDetail?.sprites?.front_default;
+  const { name, types, weight, height, abilities, stats } =
+    dataPokemonDetail || {};
 
   return (
     <>
-      <div className="flex justify-between items-center mb-5 mt-5">
+      <div className={styles.header}>
         <PageHeader
           title="Pokemon List"
-          crumbs={[
-            { label: 'Home', href: '/' },
-            { label: `${dataPokemonDetail?.name}` },
-          ]}
+          crumbs={[{ label: 'Home', href: '/' }, { label: `${name}` }]}
         />
       </div>
-      <Paper className="p-6 flex flex-col items-center border-8 border-black rounded-lg mb-10">
-        <Typography variant="h4" as="h1" className="capitalize font-bold">
+      <Paper className={styles.paper}>
+        <Typography variant="h4" as="h1" className={styles.pokemonName}>
           {dataPokemonDetail?.name}
         </Typography>
         {imageUrl ? (
-          <Image
-            src={dataPokemonDetail?.sprites?.front_default}
-            alt={dataPokemonDetail?.name}
-            width="200"
-            height="200"
-          />
+          <Image src={imageUrl} alt={pokemonName} width="200" height="200" />
         ) : (
           <Spinner />
         )}
 
-        <Typography variant="h5" className="font-bold mb-2">
-          Pokédex data
-        </Typography>
-        <table className="mb-5 ">
-          <tbody>
-            <tr>
-              <th>Type</th>
-              <td>
+        <PokemonPokedoxData
+          typesPokemon={types}
+          abilities={abilities}
+          weight={weight}
+          height={height}
+        />
+
+        <PokemonBaseStats data={stats as PokemonStats[]} />
+
+        {isCatched && (
+          <div className={styles.caught}>
+            <Typography className="font-bold">
+              You already caught this Pokemon
+            </Typography>{' '}
+            <Typography>
+              Check in{' '}
+              <Link className={styles.caughtLink} href="/my-pokemon">
                 {' '}
-                {dataPokemonDetail?.types.map((item) => (
-                  <span key={item?.type?.name} className="capitalize">
-                    {' '}
-                    {item?.type?.name}
-                  </span>
-                ))}
-              </td>
-            </tr>
-            <tr>
-              <th>Weight</th>
-              <td>{dataPokemonDetail?.weight}</td>
-            </tr>
-            <tr>
-              <th>Height</th>
-              <td>{dataPokemonDetail?.height}</td>
-            </tr>
-            <tr>
-              <th>Abilities</th>
-              <td>
-                {dataPokemonDetail?.abilities.map((item) => (
-                  <Typography key={item?.ability.name}>
-                    {item?.ability.name}
-                    {item.is_hidden && <span> (hidden ability)</span>}
-                  </Typography>
-                ))}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                My Pokemon
+              </Link>
+            </Typography>
+          </div>
+        )}
 
-        <div className="w-full bg-amber-100 py-5 mb-8">
-          <Typography
-            variant="h5"
-            className="text-left px-10 font-bold w-full mb-2"
-          >
-            Base stats
-          </Typography>
-
-          <table className="flex w-full justify-between px-10 mb-5">
-            <tbody className="w-full">
-              {dataPokemonDetail?.stats.map((item) => (
-                <tr
-                  key={item.stat.name}
-                  className="flex w-full justify-between gap-6 items-center my-2 "
-                >
-                  <td className="min-w-[150px]">
-                    <Typography className="capitalize">
-                      {item.stat.name}
-                    </Typography>
-                  </td>
-                  <td>
-                    <Typography>{item.base_stat}</Typography>
-                  </td>
-                  <td className="w-full">
-                    <Progress value={item.base_stat} />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {isCatched ? (
-          <Typography>You Already catch this Pokemon</Typography>
-        ) : (
+        {!isCatched && (
           <Button color="primary" onClick={() => handleCatch()}>
-            Catch
+            {isLoading ? <Spinner /> : <span>Catch</span>}
           </Button>
         )}
       </Paper>

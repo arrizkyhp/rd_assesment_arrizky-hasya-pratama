@@ -13,7 +13,8 @@ const usePokemonDetail = () => {
     string | string[] | undefined
   >('');
   const [data, setData] = useState<PokemonDetailResponse[]>([]);
-  const [isCatched, setIsCacthed] = useState<boolean>(false);
+  const [isCatched, setIsCatched] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     setCurrentPokemonName(getPokemonName?.id);
@@ -39,9 +40,7 @@ const usePokemonDetail = () => {
         (item: PokemonDetailResponse) => item.name === dataPokemonDetail?.name,
       );
 
-      setIsCacthed(isDataIncluded);
-
-      console.log('Data included in localStorage:', isDataIncluded);
+      setIsCatched(isDataIncluded);
 
       setData(JSON.parse(savedData));
     }
@@ -50,20 +49,29 @@ const usePokemonDetail = () => {
   const handleCatch = () => {
     if (dataPokemonDetail) {
       const newData = [...data];
+      setIsLoading(true);
 
-      newData.push(dataPokemonDetail);
+      setTimeout(() => {
+        newData.push(dataPokemonDetail);
+        setData(newData);
+        localStorage.setItem('myData', JSON.stringify(newData));
 
-      setData(newData);
-      localStorage.setItem('myData', JSON.stringify(newData));
-
-      setIsCacthed(true);
+        setIsCatched(true);
+        setIsLoading(false);
+      }, 3000);
     }
   };
+
+  const imageUrl = dataPokemonDetail?.sprites?.front_default || '';
+  const pokemonName = dataPokemonDetail?.name || '';
 
   return {
     dataPokemonDetail,
     handleCatch,
     isCatched,
+    isLoading,
+    imageUrl,
+    pokemonName,
   };
 };
 

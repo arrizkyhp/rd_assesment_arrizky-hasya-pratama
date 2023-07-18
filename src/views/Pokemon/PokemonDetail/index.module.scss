@@ -1,0 +1,19 @@
+.header {
+  @apply flex justify-between items-center mb-5 mt-5;
+}
+
+.paper {
+  @apply p-6 flex flex-col items-center border-8 border-black rounded-lg mb-10;
+
+  .pokemonName {
+    @apply capitalize font-bold;
+  }
+
+  .caught {
+    @apply flex flex-col justify-center gap-1 text-center mb-5;
+
+    .caughtLink {
+      @apply no-underline font-bold text-blue-600;
+    }
+  }
+}
